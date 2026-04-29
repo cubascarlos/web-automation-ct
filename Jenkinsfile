@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/TU_USUARIO/TU_REPO.git'
+                git branch: 'main', url: 'https://github.com/cubascarlos/web-automation-ct.git'
             }
         }
 
