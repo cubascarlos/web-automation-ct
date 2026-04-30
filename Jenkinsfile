@@ -23,7 +23,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'target/**/*', fingerprint: true
-            cucumber buildStatus: 'UNSTABLE'
+            cucumber buildStatus: 'UNSTABLE',
                      fileIncludePattern: 'cucumber.json',
                      jsonReportDirectory: 'target/build',
                      sortingMethod: 'ALPHABETICAL',
