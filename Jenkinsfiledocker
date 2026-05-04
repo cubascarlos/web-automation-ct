@@ -2,14 +2,8 @@ pipeline {
     agent{
         docker{
             image 'maven:3.9.9-eclipse-temurin-21'
-            args '-u root:root --entrypoint="" -t -v /Users/carlossalvatierra/jenkins_cache/.m2:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
         }
     }
-
-    //tools {
-      //  maven 'maven-3.9.15'
-        //jdk 'jdk-21'
-    //}
 
     stages {
         stage('Checkout') {
