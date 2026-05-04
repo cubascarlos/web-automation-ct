@@ -18,7 +18,7 @@ public class GooglePage extends BaseWeb {
     List<WebElement> listResultadoBusquedaGoogle;
 
     public void buscoEnInputDeBusquedaDeGoogle(String valorBusqueda) {
-        Logger.getGlobal().log(Level.INFO, 'BUSCANDO EN GOOGLE...');
+        Logger.getGlobal().log(Level.INFO, "BUSCANDO EN GOOGLE...");
         ScenarioContext.saveVariableOnSession("parameterToSearch", valorBusqueda);
         inputBusqueda.sendKeys(valorBusqueda);
         takeScreenShot();
