@@ -15,7 +15,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 deleteDir()
-                git branch: 'main', url: 'https://github.com/cubascarlos/web-automation-ct.git'
+                //git branch: 'main', url: 'https://github.com/cubascarlos/web-automation-ct.git'
+                sh 'mvn -B -Dmaven.repo.local=/var/maven/.m2 clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true'
             }
         }
 
