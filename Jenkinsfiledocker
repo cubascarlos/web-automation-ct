@@ -18,7 +18,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'mvn clean verify -Dcucumber.filter.tags="@NTLC-1 -Dheadless=true"'
+                sh 'mvn clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true'
                 //sh 'mvn clean'
             }
         }
