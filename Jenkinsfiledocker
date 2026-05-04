@@ -28,9 +28,9 @@ pipeline {
 
     post {
         always {
-            buildStatus: 'UNSTABLE',
-            archiveArtifacts artifacts: 'target/**/*'
-            cucumber fileIncludePattern: 'cucumber.json',
+            archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
+            cucumber buildStatus: 'UNSTABLE',
+                     fileIncludePattern: 'cucumber.json',
                      jsonReportDirectory: 'target/build'
         }
     }
