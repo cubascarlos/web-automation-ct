@@ -1,8 +1,8 @@
 pipeline {
     agent{
         docker{
-            //image 'maven:3.9.9-eclipse-temurin-21'
-            image 'cypress/browsers:node-20.14.0-chrome-125.0.6422.141-ff-126.0.1-edge-125.0.2535.85-1'
+            image 'maven:3.9.9-eclipse-temurin-21'
+            //image 'cypress/browsers:node-20.14.0-chrome-125.0.6422.141-ff-126.0.1-edge-125.0.2535.85-1'
             args '-u root:root -t'
         }
     }
@@ -18,7 +18,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'mvn clean verify -Dcucumber.filter.tags="@NTLC-1"'
+                sh 'mvn clean verify -Dcucumber.filter.tags="@NTLC-1 -Dheadless=true"'
                 //sh 'mvn clean'
             }
         }
