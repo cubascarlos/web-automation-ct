@@ -28,3 +28,13 @@ pipeline {
         }
     }
 }
+
+pipeline{
+  //En que agente va correr
+  agent: any
+  //Que herramientas vamos a instalar al inicio
+  tools{
+    maven "mvn-3.0.19"
+  }
+
+

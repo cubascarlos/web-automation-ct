@@ -24,9 +24,15 @@ public class WebDriverManager {
 
     public static void setWebDriver() {
         String browser = System.getProperty("browser") != null ? System.getProperty("browser") : Util.getFromConfigFile("browser");
+        String isHeadless = System.getProperty("headless", "false");
         switch (browser) {
             case "chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();
+                if (isHeadless.equals("true")) {
+                    chromeOptions.addArguments("--headless=new");
+                    chromeOptions.addArguments("--no-sandbox");
+                    chromeOptions.addArguments("--disable-dev-shm-usage");
+                }
                 chromeOptions.addArguments("--remote-allow-origins=*");
                 //System.setProperty("webdriver.chrome.driver", "drivers/win/chromedriver.exe");
                 //driver = new ChromeDriver(chromeOptions);
