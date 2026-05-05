@@ -1,8 +1,8 @@
 pipeline {
     agent{
         docker{
-            //image 'maven:3.9.9-eclipse-temurin-21' imagen unicamente con maven y Java
             image 'markhobson/maven-chrome'
+            /*Configuración: Root para permisos, volumen para caché y ruta de repo local*/
             args '''
                 -u root
                 -v maven-cache:/var/maven/.m2
@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                //deleteDir()
+                deleteDir()
                 git branch: 'main', url: 'https://github.com/cubascarlos/web-automation-ct.git'
             }
         }
