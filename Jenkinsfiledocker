@@ -4,9 +4,9 @@ pipeline {
             //image 'maven:3.9.9-eclipse-temurin-21' imagen unicamente con maven y Java
             image 'markhobson/maven-chrome'
             args '''
-                -u root // Ejecuta el contenedor con permisos de superusuario
-                -v maven-cache:/var/maven/.m2 // Crea un volumen persistente para no descargar dependencias cada vez
-                -e MAVEN_OPTS="-Dmaven.repo.local=/var/maven/.m2/repository" // Indica a Maven la ruta exacta del caché persistente
+                -u root
+                -v maven-cache:/var/maven/.m2
+                -e MAVEN_OPTS="-Dmaven.repo.local=/var/maven/.m2/repository"
             '''
         }
     }
