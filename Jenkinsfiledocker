@@ -3,32 +3,26 @@ pipeline {
         docker{
             //image 'maven:3.9.9-eclipse-temurin-21' imagen unicamente con maven y Java
             image 'markhobson/maven-chrome'
-            //args '-u root:root -t -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
             args '''
-                -u root 
-                -v maven-cache:/var/maven/.m2 
-                -e MAVEN_OPTS="-Dmaven.repo.local=/var/maven/.m2/repository"
+                -u root // Ejecuta el contenedor con permisos de superusuario
+                -v maven-cache:/var/maven/.m2 // Crea un volumen persistente para no descargar dependencias cada vez
+                -e MAVEN_OPTS="-Dmaven.repo.local=/var/maven/.m2/repository" // Indica a Maven la ruta exacta del caché persistente
             '''
         }
     }
-
     stages {
         stage('Checkout') {
             steps {
-                echo 'HOLA MUNDO'
                 //deleteDir()
                 git branch: 'main', url: 'https://github.com/cubascarlos/web-automation-ct.git'
             }
         }
-
         stage('Run Tests') {
             steps {
-                //sh 'mvn clean verify -s /var/maven/.m2/settings-docker.xml -Dmaven.repo.local=/var/maven/.m2/repository -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true'
                 sh 'mvn clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true'
             }
         }
     }
-
     post {
         always {
             archiveArtifacts artifacts: 'target/**/*', allowEmptyArchive: true
