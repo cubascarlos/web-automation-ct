@@ -5,7 +5,7 @@ pipeline {
             image 'markhobson/maven-chrome' //Imagen con maven, java y chrome
             //args '-u root:root -t'
             //args '-u root:root -t -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
-            args '-u root:root -t -v maven-cache:/usr/share/maven/ref/repository -e MAVEN_CONFIG=/usr/share/maven/ref/repository''
+            args '-u root:root -t -s /var/maven/.m2/settings-docker.xml'
         }
     }
 
