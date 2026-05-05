@@ -4,8 +4,8 @@ pipeline {
             //image 'maven:3.9.9-eclipse-temurin-21' imagen unicamente con maven y Java
             image 'markhobson/maven-chrome' //Imagen con maven, java y chrome
             //args '-u root:root -t'
-            //args '-u root:root -t -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
-            args '--entrypoint="" -u root -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+            args '-u root:root -t -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
+            //args '--entrypoint="" -u root -v maven-cache:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2'
         }
     }
 
