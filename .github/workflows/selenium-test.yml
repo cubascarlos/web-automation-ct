@@ -1,0 +1,52 @@
+name: Selenium Automation Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    container:
+      image: markhobson/maven-chrome
+      options: >-
+        -u root
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Verificar Java
+        run: java -version
+
+      - name: Cachear dependencias Maven
+        uses: actions/cache@v4
+        with:
+          path: /var/maven/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Ejecutar pruebas
+        env:
+          MAVEN_OPTS: "-Dmaven.repo.local=/var/maven/.m2/repository"
+        run: mvn clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true
+
+      - name: Archivar artefactos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/**/*
+          if-no-files-found: ignore
+
+      - name: Publicar reporte Cucumber
+        if: always()
+        uses: deblockt/cucumber-report-annotations-action@v1.7
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: target/build/cucumber.json
