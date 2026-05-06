@@ -31,15 +31,23 @@ jobs:
           MAVEN_OPTS: "-Dmaven.repo.local=/var/maven/.m2/repository"
         run: mvn clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true
 
-      - name: Archivar artefactos
+      - name: Archivar reporte HTML de Cucumber
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report
+          path: target/site/cucumber/cucumber-html-reports/
+          if-no-files-found: ignore
+
+      - name: Archivar artefactos generales
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: target/**/*
+          path: target/build/
           if-no-files-found: ignore
 
-      - name: Publicar reporte Cucumber
+      - name: Publicar reporte Cucumber en checks
         if: always()
         uses: deblockt/cucumber-report-annotations-action@v1.7
         with:
