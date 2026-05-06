@@ -2,7 +2,7 @@ pipeline {
     agent{
         docker{
             image 'markhobson/maven-chrome'
-            /*Configuración: Root para permisos, volumen para caché y ruta de repo local*/
+            /*Configuración: Root para permisos, volumen para caché y ruta de repo local donde se guarda la caché*/
             args '''
                 -u root
                 -v maven-cache:/var/maven/.m2
