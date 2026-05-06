@@ -7,14 +7,17 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  checks: write
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     container:
       image: markhobson/maven-chrome
-      options: >-
-        -u root
+      options: -u root
 
     steps:
       - name: Checkout código
@@ -22,14 +25,6 @@ jobs:
 
       - name: Verificar Java
         run: java -version
-
-      - name: Cachear dependencias Maven
-        uses: actions/cache@v4
-        with:
-          path: /var/maven/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
 
       - name: Ejecutar pruebas
         env:
