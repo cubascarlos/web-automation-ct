@@ -1,0 +1,55 @@
+name: Selenium Automation Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Build de tu imagen Docker
+        run: docker build -t mi-maven-chrome:latest .
+
+      - name: Ejecutar pruebas en tu contenedor
+        run: |
+          docker run --rm \
+            -u root \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            mi-maven-chrome:latest \
+            mvn clean verify -Dcucumber.filter.tags="@NTLC-1" -Dheadless=true
+
+      - name: Archivar reporte HTML de Cucumber
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-html-report
+          path: target/site/cucumber/cucumber-html-reports/
+          if-no-files-found: ignore
+
+      - name: Archivar artefactos generales
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/build/
+          if-no-files-found: ignore
+
+      - name: Publicar reporte Cucumber en checks
+        if: always()
+        uses: deblockt/cucumber-report-annotations-action@v1.7
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          path: target/build/cucumber.json
